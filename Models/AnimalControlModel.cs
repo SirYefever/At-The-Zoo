@@ -91,13 +91,15 @@ namespace At_The_Zoo_Wpf.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Animals)));
         }
 
-        public void RemoveAnimal(Animal animal)
+        public void RemoveAnimal(Guid Id)
         {
-            var aviary = MainControl.AviaryControl.Aviaries.Where(x => x.Animals.Contains(animal)).FirstOrDefault();
+            var aviary = MainControl.AviaryControl.Aviaries.Where(x =>
+                x.Animals.Contains(MainControl.RegistryControl.Registry[Id] as Animal)).FirstOrDefault();
             if (aviary == null)
                 return;
 
-            aviary.RemoveAnimal(animal);
+            aviary.RemoveAnimal(MainControl.RegistryControl.Registry[Id] as Animal);
+            MainControl.RegistryControl.Registry.Remove(Id);
             MainControl.UpdateCurrentStatusWithEntity(null);
         }
 
@@ -108,9 +110,9 @@ namespace At_The_Zoo_Wpf.Models
             MainControl.UpdateCurrentStatusWithEntity(newAnimalEntity);
         }
 
-        public void RedactAnimal(Animal animal)
+        public void RedactAnimal(Guid Id)
         {
-            AnimalRedactWindow animalRedactWindow = new AnimalRedactWindow(animal);
+            AnimalRedactWindow animalRedactWindow = new AnimalRedactWindow(MainControl.RegistryControl.Registry[Id] as Animal);
             animalRedactWindow.Show();
         }
 

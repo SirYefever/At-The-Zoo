@@ -59,7 +59,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             });
             RemoveAnimalCommand = new DelegateCommand<Animal?> (animal => {
                 if(animal is not null)
-                    _animalControl.RemoveAnimal(animal);
+                    _animalControl.RemoveAnimal(animal.Id);
             });
             StatusAnimalCommand = new DelegateCommand<Animal?>(animal =>
             {
@@ -69,7 +69,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             RedactAnimalCommand = new DelegateCommand<Animal?>(animal =>
             {
                 if (animal is not null)
-                    _animalControl.RedactAnimal(animal);
+                    _animalControl.RedactAnimal(animal.Id);
             });
             VoiceAnimalCommand = new DelegateCommand<Animal?>(animal =>
             {
@@ -84,7 +84,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             RemoveVisitorCommand = new DelegateCommand<Visitor?>(visitor =>
             {
                 if (visitor is not null)
-                    _visitorControl.RemoveVisitor(visitor);
+                    _visitorControl.RemoveVisitor(visitor.Id);
             });
             StatusVisitorCommand = new DelegateCommand<Visitor?>(visitor =>
             {
@@ -94,7 +94,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             RedactVisitorCommand = new DelegateCommand<Visitor?>(visitor =>
             {
                 if (visitor is not null)
-                    _visitorControl.RedactVisitor(visitor);
+                    _visitorControl.RedactVisitor(visitor.Id);
             });
                 
             AddRandomEmployeeCommand = new DelegateCommand(() =>
@@ -104,7 +104,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             RemoveEmployeeCommand = new DelegateCommand<Employee?>(employee =>
             {
                 if (employee is not null)
-                    _employeeControl.RemoveEmployee(employee);
+                    _employeeControl.RemoveEmployee(employee.Id);
             });
             StatusEmployeeCommand = new DelegateCommand<Employee?>(employee =>
             {
@@ -114,7 +114,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             RedactEmployeeCommand = new DelegateCommand<Employee?>(employee =>
             {
                 if (employee is not null)
-                    _employeeControl.RedactEmployee(employee);
+                    _employeeControl.RedactEmployee(employee.Id);
             });
             PauseCommand = new DelegateCommand(() =>
             {

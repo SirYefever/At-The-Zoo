@@ -58,10 +58,11 @@ namespace At_The_Zoo_Wpf.Models
 
         }
 
-        public void RemoveVisitor(Visitor visitor)
+        public void RemoveVisitor(Guid Id)
         {
-            _visitors.Remove(visitor);
             MainControl.UpdateCurrentStatusWithEntity(null);
+            MainControl.RegistryControl.Registry.Remove(Id);
+            OnVisitorsChange();
         }
 
         public void StatusVisitor(Visitor visitor)
@@ -71,9 +72,9 @@ namespace At_The_Zoo_Wpf.Models
             MainControl.UpdateCurrentStatusWithEntity(newVisitorEntity);
         }
 
-        public void RedactVisitor(Visitor visitor)
+        public void RedactVisitor(Guid Id)
         {
-            VisitorRedactWindow visitorRedactWindow = new VisitorRedactWindow(visitor);
+            VisitorRedactWindow visitorRedactWindow = new VisitorRedactWindow(MainControl.RegistryControl.Registry[Id] as Visitor);
             visitorRedactWindow.Show();
         }
 

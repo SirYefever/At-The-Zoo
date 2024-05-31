@@ -93,10 +93,10 @@ namespace At_The_Zoo_Wpf.Models
             OnEmployeesChange();
         }
 
-        public void RemoveEmployee(Employee employee)
+        public void RemoveEmployee(Guid Id)
         {
             MainControl.UpdateCurrentStatusWithEntity(null);
-            MainControl.RegistryControl.Registry.Remove(employee.Id);
+            MainControl.RegistryControl.Registry.Remove(Id);
             OnEmployeesChange();
         }
 
@@ -115,9 +115,9 @@ namespace At_The_Zoo_Wpf.Models
             MainControl.UpdateCurrentStatusWithEntity(newEmployeeEntity);
         }
 
-        public void RedactEmployee(Employee employee)
+        public void RedactEmployee(Guid Id)
         {
-            EmployeeRedactWindow employeeRedactWindow = new EmployeeRedactWindow(employee);
+            EmployeeRedactWindow employeeRedactWindow = new EmployeeRedactWindow(MainControl.RegistryControl.Registry[Id] as Employee);
             employeeRedactWindow.Show();
         }
 
