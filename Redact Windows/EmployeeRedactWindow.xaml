@@ -1,0 +1,38 @@
+﻿<Window x:Class="At_The_Zoo_Wpf.EmployeeRedactWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:At_The_Zoo_Wpf" xmlns:viewmodels="clr-namespace:At_The_Zoo_Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="EmployeeRedactWindow" Height="200" Width="400">
+    <StackPanel>
+        <TextBlock Margin="0 10 0 10" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="Black" TextDecorations="Underline" FontWeight="Bold">Employee Redacting Window</TextBlock>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="10 0 0 0">
+                <TextBlock Text="Name:" Margin="0 0 5 4"/>
+                <TextBlock Text="Surname:" Margin="0 0 5 4"/>
+                <TextBlock Text="Age:" Margin="0 0 5 4"/>
+                <TextBlock Text="Sex:" Margin="0 0 5 4"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBox Text="{Binding Name, Mode=TwoWay}" Margin="0 0 5 2" />
+                <TextBox Text="{Binding Surname, Mode=TwoWay}" Margin="0 0 5 2"/>
+                <TextBox Text="{Binding Age, Mode=TwoWay}" Margin="0 0 5 2"/>
+                <TextBox Text="{Binding Sex, Mode=TwoWay}" Margin="0 0 5 2"/>
+            </StackPanel>
+        </Grid>
+        <Grid Margin="0 10 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Click="ClickSave" Grid.Column="0" Content="Save" Margin="20 0 20 0" />
+            <Button Click="ClickCancel" Grid.Column="1" Content="Cancel" Margin="20 0 20 0"/>
+        </Grid>
+    </StackPanel>
+</Window>
