@@ -3,7 +3,7 @@ using At_The_Zoo_Wpf.Misc;
 
 namespace At_The_Zoo_Wpf.Consumables
 {
-    class Carrot : ISaturating
+    public class Carrot : ISaturating
     {
         private int _chargesLeft = 1;
 

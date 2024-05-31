@@ -17,6 +17,7 @@ namespace At_The_Zoo_Wpf.ViewModels
         private VisitorControlModel _visitorControl;
         private EmployeeControlModel _employeeControl;
         private AviaryControlModel _aviaryControl;
+        private RegistryControlModel _registryControl;
         private Animal _selectedItem;
         
 
@@ -32,6 +33,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             _visitorControl = new VisitorControlModel();
             _employeeControl = new EmployeeControlModel();
             _aviaryControl = new AviaryControlModel();
+            _registryControl = new RegistryControlModel();
             _model = new MainModel();
 
             _model.AnimalControl = _animalControl;
@@ -46,6 +48,8 @@ namespace At_The_Zoo_Wpf.ViewModels
             _model.AviaryControl = _aviaryControl;
             _aviaryControl.MainControl = _model;
 
+            _model.RegistryControl = _registryControl;
+            _registryControl.MainControl = _model;
 
             _model.PropertyChanged += PropertyChanged;
 
@@ -144,15 +148,15 @@ namespace At_The_Zoo_Wpf.ViewModels
         public DelegateCommand<Visitor?> RemoveVisitorCommand { get; }
         public DelegateCommand<Visitor?> StatusVisitorCommand { get; }
         public DelegateCommand<Visitor?> RedactVisitorCommand { get; }
-        public ReadOnlyObservableCollection<Visitor> Visitors => _visitorControl.Visitors;
+        public ObservableCollection<Visitor> Visitors => _visitorControl.Visitors;
         public DelegateCommand AddRandomEmployeeCommand { get; }
         public DelegateCommand<Employee?> RemoveEmployeeCommand { get; }
         public DelegateCommand<Employee?> StatusEmployeeCommand { get; }
         public DelegateCommand<Employee?> RedactEmployeeCommand { get; }
-        public ReadOnlyObservableCollection<Person> Employees => _employeeControl.Employees;
+        public ObservableCollection<Person> Employees => _employeeControl.Employees;
         public ReadOnlyObservableCollection<string> StatusCollection => _model.StatusCollection;
         public DelegateCommand PauseCommand { get; }
-        public ReadOnlyObservableCollection<Aviary> Aviaries => _aviaryControl.Aviaries;
+        public ObservableCollection<Aviary> Aviaries => _aviaryControl.Aviaries;
         public Animal SelectedItem { get => _selectedItem; 
             set 
             { 

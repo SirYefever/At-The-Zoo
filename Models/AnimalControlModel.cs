@@ -10,14 +10,11 @@ namespace At_The_Zoo_Wpf.Models
     public class AnimalControlModel : INotifyPropertyChanged
     {
 
-        public event PropertyChangedEventHandler? PropertyChanged = (sender, e) =>
-        {
-
-        };
+        public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => 
+        {};
 
         public MainModel MainControl { get; set; }
         
-
 
         private ObservableCollection<Animal> _animals
         {
@@ -35,6 +32,18 @@ namespace At_The_Zoo_Wpf.Models
             }
         }
         public ObservableCollection<Animal> Animals { get => _animals; }
+        public void OnAnimalsChange()
+        {
+            _animals.Clear();
+            foreach (var aviary in from obj in MainControl.RegistryControl.Registry.Values
+                                   where obj is Animal
+                                   select obj as Animal)
+            {
+                _animals.Add(aviary);
+            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(_animals)));
+        }
+
 
 
         public void AddRandomAnimal()
@@ -78,6 +87,8 @@ namespace At_The_Zoo_Wpf.Models
                     Constants.DefaultMaxUlotkaZKaczka3000ChargesForAviary);
                 MainControl.AviaryControl.Aviaries[MainControl.AviaryControl.Aviaries.Count - 1].AddAnimal(animal);
             }
+            MainControl.RegistryControl.AddObject(animal);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Animals)));
         }
 
         public void RemoveAnimal(Animal animal)
@@ -127,34 +138,39 @@ namespace At_The_Zoo_Wpf.Models
             }
         }
 
+        public void AnimalsStarve()
+        {
+            foreach (Animal animal in _animals)
+            {
+                animal.ChangeSaturation(-1);
+            }
+        }
+
         public void AnimalsEat(Aviary aviary)
         {
             foreach (Animal animal in aviary.Animals)
             {
-                animal.ChangeSaturation(-1);
                 if (animal.Saturation < animal.HungerThreshold * 0.5)
                 {
-                    foreach (string menuPos in animal.Menu) {
+                    foreach (string menuPos in new[] { nameof(DobryRolnik), nameof(ObfiteZniwo), nameof(UlotkaZKaczka3000) }) {
                         if (menuPos == nameof(DobryRolnik))
                         {
-                            DobryRolnik dobryRolnik = new();
-                            int feedSpent = Math.Min(aviary.DobryRolnikCharges, (int)Math.Round((decimal)(animal.HungerThreshold - animal.Saturation) / dobryRolnik.Satiety));
+                            int feedSpent = Math.Min(aviary.DobryRolnikCharges, (int)Math.Round((decimal)(animal.HungerThreshold - animal.Saturation) / Constants.DobryRolnikDefaultSatiety));
                             aviary.DobryRolnikCharges -= feedSpent;
-                            animal.ChangeSaturation(feedSpent * dobryRolnik.Satiety);
+                            animal.ChangeSaturation(feedSpent * Constants.DobryRolnikDefaultSatiety);
                         }
                         if (menuPos == nameof(ObfiteZniwo))
                         {
-                            ObfiteZniwo obfiteZniwo = new();
-                            int feedSpent = Math.Min(aviary.ObfiteZniwoCharges, (int)Math.Round((decimal)(animal.HungerThreshold - animal.Saturation) / obfiteZniwo.Satiety));
+                            int feedSpent = Math.Min(aviary.ObfiteZniwoCharges, (int)Math.Round((decimal)(animal.HungerThreshold - animal.Saturation) / Constants.ObfiteZniwoDefaultSatiety));
                             aviary.ObfiteZniwoCharges -= feedSpent;
-                            animal.ChangeSaturation(feedSpent * obfiteZniwo.Satiety);
+                            animal.ChangeSaturation(feedSpent * Constants.ObfiteZniwoDefaultSatiety);
                         }
                         if (menuPos == nameof(UlotkaZKaczka3000))
                         {
                             UlotkaZKaczka3000 ulotkaZKaczka3000 = new();
                             int feedSpent = Math.Min(aviary.UlotkaZKaczka3000Charges, (int)Math.Round((decimal)(animal.HungerThreshold - animal.Saturation) / ulotkaZKaczka3000.Satiety));
                             aviary.UlotkaZKaczka3000Charges -= feedSpent;
-                            animal.ChangeSaturation(feedSpent * ulotkaZKaczka3000.Satiety);
+                            animal.ChangeSaturation(feedSpent * Constants.UlotkaZKaczka3000DefaultSatiety);
                         }
                     }
                 }

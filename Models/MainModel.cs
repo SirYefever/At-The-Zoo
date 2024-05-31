@@ -1,6 +1,5 @@
 ﻿using At_The_Zoo_Wpf.Animals;
 using At_The_Zoo_Wpf.Aviaries;
-using At_The_Zoo_Wpf.Consumables;
 using At_The_Zoo_Wpf.Misc;
 using At_The_Zoo_Wpf.People;
 using At_The_Zoo_Wpf.People.Employees;
@@ -23,6 +22,7 @@ namespace At_The_Zoo_Wpf.Models
         public VisitorControlModel VisitorControl { get; set; }
         public EmployeeControlModel EmployeeControl { get; set; }
         public AviaryControlModel AviaryControl { get; set; }
+        public RegistryControlModel RegistryControl { get; set; }
 
         private readonly ObservableCollection<string> _statusCollection = new ObservableCollection<string>();
         public readonly ReadOnlyObservableCollection<string> StatusCollection;
@@ -65,6 +65,7 @@ namespace At_The_Zoo_Wpf.Models
                     EmployeeControl.RefillFeedChargesForAviary(aviary);
             }
 
+            AnimalControl.AnimalsStarve();
             VisitorControl.RandomVisitorBuysRandomSaturating();
 
             if (_ticksTotal % 17 == 0)

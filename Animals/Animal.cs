@@ -1,10 +1,11 @@
-﻿using At_The_Zoo_Wpf.Consumables;
+﻿using At_The_Zoo_Wpf.Animals;
+using At_The_Zoo_Wpf.Consumables;
 using At_The_Zoo_Wpf.Misc;
 using System.ComponentModel;
 
 namespace At_The_Zoo_Wpf.Animals
 {
-    public abstract class Animal<T1, T2> : INotifyPropertyChanged, IEater
+    public abstract class Animal : INotifyPropertyChanged, IRegistrated
     {
         public event PropertyChangedEventHandler? PropertyChanged = (sender, e) =>
         {
@@ -16,17 +17,15 @@ namespace At_The_Zoo_Wpf.Animals
         private string _name;
         private string _type;
 
-        public Animal(string name, string type, int saturation, int hungerThreshold, string voiceLine, List<string>menu)
+        public Animal(string name, string type, int saturation, int hungerThreshold, string voiceLine)
         {
             Name = name;
             Type = type;
             HungerThreshold = hungerThreshold;
             Saturation = saturation;
             VoiceLine = voiceLine;
-            Menu = menu;
         }
 
-        public List<string> Menu { get; set; }
 
         public string Name
         {
@@ -100,10 +99,31 @@ namespace At_The_Zoo_Wpf.Animals
 
         public bool Hungry => Saturation <= HungerThreshold * 0.5;
 
-        public void Eat(ISaturating saturating)
-        {
-            if (saturating is T1 or T2)
-                ChangeSaturation(saturating.Satiety);
-        }
+        public Guid Id { get; set; }
+
+        public Animal Copy() => this.MemberwiseClone() as Animal;
+    }
+}
+
+public abstract class AnimalEater<T1, T2, T3> : Animal, IEater
+{
+    protected AnimalEater(string name, string type, int saturation, int hungerThreshold, string voiceLine) : base(name, type, saturation, hungerThreshold, voiceLine)
+    {
+        Name = name;
+        Type = type;
+        HungerThreshold = hungerThreshold;
+        Saturation = saturation;
+        VoiceLine = voiceLine;
+    }
+
+    public bool CanEat(ISaturating saturating)
+    {
+        return saturating is T1 or T2;
+    }
+
+    public void Eat(ISaturating saturating)
+    {
+        if (saturating is T1 or T2 && !Hungry)
+            ChangeSaturation(saturating.Satiety);
     }
 }

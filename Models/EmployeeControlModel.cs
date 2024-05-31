@@ -1,25 +1,36 @@
-﻿
-using At_The_Zoo_Wpf.Animals;
+﻿using At_The_Zoo_Wpf.Animals;
 using At_The_Zoo_Wpf.Aviaries;
 using At_The_Zoo_Wpf.Consumables;
 using At_The_Zoo_Wpf.Misc;
 using At_The_Zoo_Wpf.People;
 using At_The_Zoo_Wpf.People.Employees;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace At_The_Zoo_Wpf.Models
 {
-    public class EmployeeControlModel
+    public class EmployeeControlModel : INotifyPropertyChanged
     {
         public MainModel MainControl { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private ObservableCollection<Person> _employees = new ObservableCollection<Person>();
+
+
+        public ObservableCollection<Person> Employees{ get => _employees; }
         
-
-        private readonly ObservableCollection<Person> _employees = new ObservableCollection<Person>();
-        public readonly ReadOnlyObservableCollection<Person> Employees; 
-
-        public EmployeeControlModel()
+        public void OnEmployeesChange()
         {
-            Employees = new(_employees);
+            _employees.Clear();
+            foreach (var emp in from obj in MainControl.RegistryControl.Registry.Values
+                                where obj is Employee
+                                select obj as Person)
+            {
+                _employees.Add(emp);
+            }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(_employees)));
         }
 
         private List<ISaturating> _startInventory(int ObfiteZnwioPackageQuantity, int DobryRolnikPackageQuantity, int UlotkaZKaczka3000PackageQuantity)
@@ -78,13 +89,15 @@ namespace At_The_Zoo_Wpf.Models
 
                 randomEmployee = warden;
             }
-            _employees.Add(randomEmployee!);
+            MainControl.RegistryControl.AddObject(randomEmployee!);
+            OnEmployeesChange();
         }
 
         public void RemoveEmployee(Employee employee)
         {
-            _employees.Remove(employee);
             MainControl.UpdateCurrentStatusWithEntity(null);
+            MainControl.RegistryControl.Registry.Remove(employee.Id);
+            OnEmployeesChange();
         }
 
         public void StatusEmployee(Employee employee)

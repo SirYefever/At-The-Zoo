@@ -1,5 +1,4 @@
-﻿
-using At_The_Zoo_Wpf.Misc;
+﻿using At_The_Zoo_Wpf.Misc;
 
 namespace At_The_Zoo_Wpf.Consumables
 {

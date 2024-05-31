@@ -1,11 +1,12 @@
 ﻿using At_The_Zoo_Wpf.Animals;
 using At_The_Zoo_Wpf.Aviaries;
 using At_The_Zoo_Wpf.Consumables;
+using At_The_Zoo_Wpf.Misc;
 using System.Collections.ObjectModel;
 
 namespace At_The_Zoo_Wpf.People
 {
-    public class Visitor : Person
+    public class Visitor : Person, IRegistrated
     {
         private double _dollars = 20;
 
@@ -22,8 +23,9 @@ namespace At_The_Zoo_Wpf.People
         public List<ISaturating> Inventory { get => _inventory; set => _inventory = value; }
 
         public IOpenedPart CurrentVisibleAviary {  get; private set; }
+        public Guid Id { get; set; }
 
-        public void Stray(ReadOnlyObservableCollection<Aviary> aviaries)
+        public void Stray(ObservableCollection<Aviary> aviaries)
         {
             Random rnd = new();
             double randDouble = rnd.NextDouble();
@@ -48,10 +50,9 @@ namespace At_The_Zoo_Wpf.People
 
             foreach (var item in Inventory)
             {
-                foreach (var saturating in animal.Menu)
-                if (item.Name == saturating)
+                if ((animal as IEater)!.CanEat(item))
                     {
-                        animal.Eat(item);
+                        (animal as IEater)!.Eat(item);
                         Inventory.Remove(item);
                         return;
                     }

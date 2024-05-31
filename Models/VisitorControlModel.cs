@@ -1,33 +1,37 @@
-﻿using At_The_Zoo_Wpf.Animals;
-using At_The_Zoo_Wpf.Aviaries;
-using At_The_Zoo_Wpf.Consumables;
+﻿using At_The_Zoo_Wpf.Consumables;
 using At_The_Zoo_Wpf.Misc;
 using At_The_Zoo_Wpf.People;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace At_The_Zoo_Wpf.Models
 {
-    public class VisitorControlModel
+    public class VisitorControlModel : INotifyPropertyChanged
     {
         public MainModel MainControl { get; set; }
         
 
         private readonly ObservableCollection<Visitor> _visitors = new ObservableCollection<Visitor>();
-        public readonly ReadOnlyObservableCollection<Visitor> Visitors;
 
-        public VisitorControlModel()
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public ObservableCollection<Visitor> Visitors { get => _visitors; }
+
+        public void OnVisitorsChange()
         {
-            Visitors = new(_visitors);
+            _visitors.Clear();
+            foreach (var visitor in from obj in MainControl.RegistryControl.Registry.Values
+                                    where obj is Visitor
+                                    select obj as Visitor) 
+            {
+                _visitors.Add(visitor);
+            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(_visitors)));
         }
 
         public void AddRandomVisitor()
         {
-            Visitor randomVisitor = null!;
+            Visitor randomVisitor;
 
             Random rnd = new Random();
             string[] Sex = ["Male", "Female"];
@@ -49,7 +53,8 @@ namespace At_The_Zoo_Wpf.Models
 
             randomVisitor = new Visitor() { Name = randomUgandanName, Surname = randomUgandanSurname, Sex = randomSex, Age = rnd.Next(18, 50) };
 
-            _visitors.Add(randomVisitor!);
+            MainControl.RegistryControl.AddObject(randomVisitor!);
+            OnVisitorsChange();
 
         }
 
@@ -80,8 +85,6 @@ namespace At_The_Zoo_Wpf.Models
                 if (visitor.CurrentVisibleAviary == null)
                     return;
 
-
-                //не важно  на каком вальере находится посетитель, нужно обращаться к вольеру через интерфейс и получать все, что нужно (экранирование)
                 foreach (var animal in visitor.CurrentVisibleAviary.VisibleAnimals)
                 {
                     if (animal.Hungry && rnd.NextDouble() < 0.7)

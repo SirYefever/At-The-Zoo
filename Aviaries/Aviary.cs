@@ -6,12 +6,10 @@ using System.ComponentModel;
 
 namespace At_The_Zoo_Wpf.Aviaries
 {
-    public class Aviary : INotifyPropertyChanged, IClosedPart, IOpenedPart
+    public class Aviary : INotifyPropertyChanged, IClosedPart, IOpenedPart, IRegistrated
     {
-        public event PropertyChangedEventHandler? PropertyChanged = (sender, e) =>
-        {
-
-        };
+        public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => 
+        {};
         
         private List<Animal> _visibleAnimals = [];
         private List<Animal> _invisibleAnimals = [];
@@ -186,6 +184,7 @@ namespace At_The_Zoo_Wpf.Aviaries
         public IReadOnlyList<Animal> VisibleAnimals { get => _visibleAnimals; }
 
         public IReadOnlyList<Animal> InvisibleAnimals { get => _invisibleAnimals; }
+        public Guid Id { get; set; }
 
         public void MoveAnimal(Animal animal)
         {
