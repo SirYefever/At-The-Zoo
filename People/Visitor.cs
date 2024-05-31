@@ -25,7 +25,7 @@ namespace At_The_Zoo_Wpf.People
         public IOpenedPart CurrentVisibleAviary {  get; private set; }
         public Guid Id { get; set; }
 
-        public void Stray(ObservableCollection<Aviary> aviaries)
+        public void Stray(ObservableCollection<Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000>> aviaries)
         {
             Random rnd = new();
             double randDouble = rnd.NextDouble();

@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace At_The_Zoo_Wpf.Aviaries
 {
-    public class Aviary : INotifyPropertyChanged, IClosedPart, IOpenedPart, IRegistrated
+    public class Aviary<T1, T2, T3> : INotifyPropertyChanged, IClosedPart, IOpenedPart, IRegistrated
     {
         public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => 
         {};

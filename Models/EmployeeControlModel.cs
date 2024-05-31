@@ -121,7 +121,7 @@ namespace At_The_Zoo_Wpf.Models
             employeeRedactWindow.Show();
         }
 
-        public void RefillFeedChargesForAviary(Aviary aviary)
+        public void RefillFeedChargesForAviary(Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> aviary)
         {
             foreach (Warden warden in Employees.OfType<Warden>())
             {

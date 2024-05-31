@@ -4,6 +4,7 @@ using At_The_Zoo_Wpf.People.Employees;
 using PropertyChanged;
 using System.ComponentModel;
 using At_The_Zoo_Wpf.Aviaries;
+using At_The_Zoo_Wpf.Consumables;
 
 namespace At_The_Zoo_Wpf.Misc
 {
@@ -19,7 +20,7 @@ namespace At_The_Zoo_Wpf.Misc
         private Visitor _visitor;
         private Employee _employee;
         private Warden _warden;
-        private Aviary _aviary;
+        private Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> _aviary;
 
         public Animal AnimalHandler
         {
@@ -85,7 +86,7 @@ namespace At_The_Zoo_Wpf.Misc
             }
         }
 
-        public Aviary AviaryHandler
+        public Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> AviaryHandler
         {
             get
             {

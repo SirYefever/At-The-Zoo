@@ -1,5 +1,6 @@
 ﻿using At_The_Zoo_Wpf.Animals;
 using At_The_Zoo_Wpf.Aviaries;
+using At_The_Zoo_Wpf.Consumables;
 using At_The_Zoo_Wpf.Misc;
 using At_The_Zoo_Wpf.People;
 using At_The_Zoo_Wpf.People.Employees;
@@ -57,7 +58,7 @@ namespace At_The_Zoo_Wpf.Models
 
             _ticksTotal++;
 
-            foreach (Aviary aviary in AviaryControl.Aviaries) 
+            foreach (Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> aviary in AviaryControl.Aviaries) 
             {
                 AnimalControl.AnimalsEat(aviary);
 
@@ -153,7 +154,7 @@ namespace At_The_Zoo_Wpf.Models
             }
             else if (entity.getEntityName() == "Aviary")
             {
-                Aviary currentAviary = entity.AviaryHandler;
+                Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> currentAviary = entity.AviaryHandler;
                 newStatus += currentAviary.AnimalType + " Aviary Status:" + Environment.NewLine;
                 newStatus += "Animals in Total: " + currentAviary.Animals.Count() + "/" + currentAviary.maxInAviary + Environment.NewLine;
                 newStatus += "Dobry Rolnik Charges: " + currentAviary.DobryRolnikCharges + "/" + currentAviary.MaxDobryRolnikCharges + Environment.NewLine;

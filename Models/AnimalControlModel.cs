@@ -21,7 +21,7 @@ namespace At_The_Zoo_Wpf.Models
             get
             {
                 ObservableCollection<Animal> result = new ObservableCollection<Animal>();
-                foreach (Aviary aviary in MainControl.AviaryControl.Aviaries)
+                foreach (Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> aviary in MainControl.AviaryControl.Aviaries)
                 {
                     foreach (Animal animal in aviary.getAllAnimals())
                     {
@@ -72,7 +72,7 @@ namespace At_The_Zoo_Wpf.Models
             }
 
             bool aviaryFound = false;
-            foreach (Aviary current in MainControl.AviaryControl.Aviaries)
+            foreach (Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> current in MainControl.AviaryControl.Aviaries)
             {
                 if ((current.AnimalType == animal.Type && current.hasSpace()) || current.AnimalType == "Empty")
                 {
@@ -148,7 +148,7 @@ namespace At_The_Zoo_Wpf.Models
             }
         }
 
-        public void AnimalsEat(Aviary aviary)
+        public void AnimalsEat(Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000> aviary)
         {
             foreach (Animal animal in aviary.Animals)
             {

@@ -1,5 +1,6 @@
 ﻿using At_The_Zoo_Wpf.Animals;
 using At_The_Zoo_Wpf.Aviaries;
+using At_The_Zoo_Wpf.Consumables;
 using At_The_Zoo_Wpf.Misc;
 using At_The_Zoo_Wpf.Models;
 using At_The_Zoo_Wpf.People;
@@ -125,7 +126,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             {
                 _aviaryControl.AddAviary(Constants.DefaultMaxDobryRolnikChargesForAviary, Constants.DefaultMaxObfiteZniwoChargesForAviary, Constants.DefaultMaxUlotkaZKaczka3000ChargesForAviary);
             });
-            StatusAviaryCommand = new DelegateCommand<Aviary?>(aviary =>
+            StatusAviaryCommand = new DelegateCommand<Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000>?>(aviary =>
             {
                 if (aviary is not null)
                     _aviaryControl.StatusAviary(aviary);
@@ -156,7 +157,7 @@ namespace At_The_Zoo_Wpf.ViewModels
         public ObservableCollection<Person> Employees => _employeeControl.Employees;
         public ReadOnlyObservableCollection<string> StatusCollection => _model.StatusCollection;
         public DelegateCommand PauseCommand { get; }
-        public ObservableCollection<Aviary> Aviaries => _aviaryControl.Aviaries;
+        public ObservableCollection<Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000>> Aviaries => _aviaryControl.Aviaries;
         public Animal SelectedItem { get => _selectedItem; 
             set 
             { 
@@ -165,7 +166,7 @@ namespace At_The_Zoo_Wpf.ViewModels
             }
         }
         public DelegateCommand AddAviaryCommand { get; }
-        public DelegateCommand<Aviary?> StatusAviaryCommand { get; }
+        public DelegateCommand<Aviary<DobryRolnik, ObfiteZniwo, UlotkaZKaczka3000>?> StatusAviaryCommand { get; }
         public DelegateCommand ZooStatusCommand { get; }
 
 
