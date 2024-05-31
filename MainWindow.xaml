@@ -1,0 +1,142 @@
+﻿<Window x:Class="At_The_Zoo_Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:At_The_Zoo_Wpf" xmlns:viewmodels="clr-namespace:At_The_Zoo_Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1200" Background="#666">
+    <Window.DataContext>
+        <viewmodels:MainViewModel/> 
+    </Window.DataContext>
+    <StackPanel x:Name="MAIN">
+        <!--Welcome text-->
+        <TextBlock HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold" Padding="10">
+            <Run Foreground="Red" Text="Polskie"/>
+            <Run Foreground="White" Text="&#xA;         Zoo"/>
+        </TextBlock>
+        <!--Grid splitting screen in two-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--Entity List and Zoo Status-->
+            <StackPanel Margin="10 0 10 0">
+                <!--Entity lists-->
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <!--Visior-->
+                    <StackPanel Grid.Column="0">
+                        <!--Visior List-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Visitors:" HorizontalAlignment="Center" Foreground="Bisque" />
+                        </StackPanel>
+                        <Border BorderBrush="White" BorderThickness="2" Margin="0 0 4 0" Height="400">
+                            <ListBox Background="#eee" x:Name="VisitorList" ItemsSource="{Binding Visitors}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=Name}" Margin="0 0 5 0"/>
+                                            <TextBlock Text="{Binding Path=Surname}" Margin="0 0 0 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                        <Button Margin="20 5 20 5" Content="Add" Command="{Binding AddRandomVisitorCommand}" CommandParameter="{Binding ElementName=VisitorList}"/>
+                        <Button Margin="20 5 20 5" Content="Delete" Command="{Binding RemoveVisitorCommand}" CommandParameter="{Binding ElementName=VisitorList, Path=SelectedItem}"/>
+                        <Button Margin="20 5 20 5" Content="Redact" Command="{Binding RedactVisitorCommand}" CommandParameter="{Binding ElementName=VisitorList, Path=SelectedItem}" />
+                        <Button Margin="20 5 20 5" Content="Status" Command="{Binding StatusVisitorCommand}" CommandParameter="{Binding ElementName=VisitorList, Path=SelectedItem}"/>
+                    </StackPanel>
+                    <!--Employees-->
+                    <StackPanel Grid.Column="1">
+                        <!--Employees List-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Employees:" HorizontalAlignment="Center" Foreground="Bisque" />
+                        </StackPanel>
+                        <Border BorderBrush="White" BorderThickness="2" Margin="2 0 2 0" Height="400">
+                            <ListBox Background="#eee" x:Name="EmployeeList" ItemsSource="{Binding Employees}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=Name}" Margin="0 0 5 0"/>
+                                            <TextBlock Text="{Binding Path=Surname}" Margin="0 0 5 0"/>
+                                            <TextBlock Text="{Binding Path=Position}" Margin="0 0 0 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                        <Button Margin="20 5 20 5" Content="Add" Command="{Binding AddRandomEmployeeCommand}" CommandParameter="{Binding ElementName=EmployeeList}"/>
+                        <Button Margin="20 5 20 5" Content="Delete" Command="{Binding RemoveEmployeeCommand}" CommandParameter="{Binding ElementName=EmployeeList, Path=SelectedItem}"/>
+                        <Button Margin="20 5 20 5" Content="Redact" Command="{Binding RedactEmployeeCommand}" CommandParameter="{Binding ElementName=EmployeeList, Path=SelectedItem}"/>
+                        <Button Margin="20 5 20 5" Content="Status" Command="{Binding StatusEmployeeCommand}" CommandParameter="{Binding ElementName=EmployeeList, Path=SelectedItem}"/>
+                    </StackPanel>
+                    <!--Animals-->
+                    <StackPanel Grid.Column="2">
+                        <!--Animals List-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Animals:" HorizontalAlignment="Center" Foreground="Bisque" />
+                        </StackPanel>
+                        <Border BorderBrush="White" BorderThickness="2" Margin="4 0 0 0" Height="400">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ListBox Background="#eee" x:Name="AviarylList" ItemsSource="{Binding Aviaries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBox Margin="0 0 0 -5" TextAlignment="Center" IsHitTestVisible="False" Text="╔═════════ ❀•°❀°•❀ ═════════╗" BorderBrush="Transparent" Background="#eee"/>
+                                                <ListBox Background="#eee" BorderBrush="Transparent" ItemsSource="{Binding Animals}" x:Name="AnimalList" SelectedItem="{Binding Path=DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=ItemsControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding Path=Type}" Margin="0 0 5 0"/>
+                                                                <TextBlock Text="{Binding Path=Name}" Margin="0 0 5 0"/>
+                                                                <TextBlock Text="{Binding Path=Hungry}" Margin="0 0 5 0"/>
+                                                                <TextBlock Text="{Binding Path=Saturation}" Margin="0 0 0 0"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                                <TextBox Margin="0 -5 0 5" IsHitTestVisible="False" TextAlignment="Center" Text="🥀                                       🥀" BorderBrush="Transparent" Background="#eee"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </Border>
+                        <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Animals:" HorizontalAlignment="Center" Foreground="Bisque" />
+                        <Button Margin="20 5 20 5" Content="Add" x:Name="AnimalAddButton" Command="{Binding AddRandomAnimalCommand}" />
+                        <Button Margin="20 5 20 5" Content="Delete" Command="{Binding RemoveAnimalCommand}" CommandParameter="{Binding SelectedItem}"/>
+                        <Button Margin="20 5 20 5" Content="Redact" Command="{Binding RedactAnimalCommand}" CommandParameter="{Binding SelectedItem}" />
+                        <Button Margin="20 5 20 5" Content="Status" x:Name="AnimalStatusButton" Command="{Binding StatusAnimalCommand}" CommandParameter="{Binding SelectedItem}" />
+                        <Button Margin="20 5 20 5" Content="Voice" Command="{Binding VoiceAnimalCommand}" CommandParameter="{Binding  SelectedItem}" />
+                        <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Aviaries:" HorizontalAlignment="Center" Foreground="Bisque" />
+                        <Button Margin="20 5 20 5" Content="Add" Command="{Binding AddAviaryCommand}" />
+                        <Button Margin="20 5 20 5" Content="Status" Command="{Binding StatusAviaryCommand}" CommandParameter="{Binding  ElementName=AviarylList, Path=SelectedItem}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <!--Status ListBox-->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="417" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="White" BorderThickness="2" Margin="0 16 10 0">
+                    <ListBox ItemsSource="{Binding StatusCollection}" Background="#eee" />
+                </Border>
+                <StackPanel Grid.Row="1" Margin="5 10 13 0">
+                    <Button Content="Pause" Command="{Binding PauseCommand}" Margin="10 5 10 5"/>
+                    <Button Content="Zoo Status" Command="{Binding ZooStatusCommand}" Margin="10 5 10 5"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+    </StackPanel>
+</Window>
